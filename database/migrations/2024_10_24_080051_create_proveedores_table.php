@@ -4,15 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateProveedoresTable extends Migration
 {
     public function up()
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->id('Proveedor_Id');
-            $table->foreignId('Direccion_Id')->nullable()->constrained('direcciones');
+            $table->unsignedBigInteger('Direccion_Id')->nullable();
             $table->string('Proveedor_Nit', 12)->nullable();
             $table->string('Proveedor_Nombre', 25);
+            $table->foreign('Direccion_Id')->references('Direccion_Id')->on('direcciones')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -21,4 +22,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('proveedores');
     }
-};
+}

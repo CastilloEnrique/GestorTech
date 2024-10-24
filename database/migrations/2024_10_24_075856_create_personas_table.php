@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePersonasTable extends Migration
 {
     public function up()
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id('Persona_Id');
-            $table->foreignId('Direccion_Id')->nullable()->constrained('direcciones');
-            $table->foreignId('Rol_Id')->nullable()->constrained('roles');
+            $table->unsignedBigInteger('Direccion_Id')->nullable();
+            $table->unsignedBigInteger('Rol_Id')->nullable();
             $table->string('Persona_Usuario', 10)->nullable();
             $table->string('Persona_Pwd', 25)->nullable();
             $table->string('Persona_Nombre1', 25);
@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('Persona_Nit', 12)->unique();
             $table->string('Persona_CorreoElectronico', 25)->unique()->nullable();
             $table->string('Persona_Telefono', 15);
+            $table->foreign('Direccion_Id')->references('Direccion_Id')->on('direcciones')->onDelete('set null');
+            $table->foreign('Rol_Id')->references('Rol_Id')->on('roles')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -30,4 +32,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('personas');
     }
-};
+}

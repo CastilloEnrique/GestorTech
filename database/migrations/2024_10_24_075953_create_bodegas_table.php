@@ -4,14 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateBodegasTable extends Migration
 {
     public function up()
     {
         Schema::create('bodegas', function (Blueprint $table) {
             $table->id('Bodega_Id');
-            $table->foreignId('Direccion_Id')->nullable()->constrained('direcciones');
+            $table->unsignedBigInteger('Direccion_Id')->nullable();
             $table->string('Bodega_Nombre', 25)->unique();
+            $table->foreign('Direccion_Id')->references('Direccion_Id')->on('direcciones')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -20,4 +21,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('bodegas');
     }
-};
+}

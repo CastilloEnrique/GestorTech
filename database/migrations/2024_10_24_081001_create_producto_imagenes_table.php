@@ -4,17 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateProductoImagenesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('producto_imagenes', function (Blueprint $table) {
             $table->id('Imagen_Id');
-            $table->foreignId('Producto_Id')->nullable()->constrained('productos');
+            $table->unsignedBigInteger('Producto_Id')->nullable();
             $table->string('Imagen_Path', 50);
+            $table->foreign('Producto_Id')->references('Producto_Id')->on('productos')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -22,5 +20,5 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('producto_imagenes');
+    }
 }
-};
